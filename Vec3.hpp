@@ -32,7 +32,7 @@ class Vec3 {
   float length() const;
   float length_squared() const;
   Vec3  unit() const;
-  Vec3  toPixelColor() const;
+  Vec3  toPixelColor(int samplesPerPixel) const;
 
  private:
   float x;

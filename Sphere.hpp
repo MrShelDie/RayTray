@@ -8,10 +8,11 @@ class Sphere : public IHittable {
   Sphere();
   Sphere(const Sphere& other);
   Sphere(Point3 center, float radius);
+  virtual ~Sphere();
   
   Sphere& operator=(const Sphere& other);
 
-  virtual ~Sphere();
+  virtual IHittable* copy() const override;
   virtual bool hit(const Ray& ray, float tMin,
                    float tMax, HitRecord& hitRecord) const override;
 

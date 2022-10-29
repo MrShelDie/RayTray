@@ -27,6 +27,10 @@ Sphere::~Sphere() {
 
 }
 
+IHittable* Sphere::copy() const {
+  return new Sphere;
+}
+
 bool Sphere::hit(
     const Ray& ray, float tMin, float tMax, HitRecord& hitRecord) const {
   Vec3  oc = ray.getOrigin() - center;
@@ -52,7 +56,8 @@ bool Sphere::hit(
 
   hitRecord.t = root;
   hitRecord.p = ray.at(root);
-  hitRecord.norm = (hitRecord.p - center) / radius;
+  Vec3 outwardNorm = (hitRecord.p - center) / radius;
+  hitRecord.setFaceNorm(ray, outwardNorm);
 
   return true;
 }

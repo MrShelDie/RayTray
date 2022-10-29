@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "Vec3.hpp"
+#include "RayTray.hpp"
 
 Vec3::Vec3() : x(0), y(0), z(0) {
 
@@ -111,10 +112,21 @@ Vec3 Vec3::unit() const {
   return *this / length();
 }
 
-Vec3 Vec3::toPixelColor() const {
-  return Vec3(static_cast<int>(x * 255),
-              static_cast<int>(y * 255),
-              static_cast<int>(z * 255));
+Vec3 Vec3::toPixelColor(int samplesPerPixel) const {
+  float r = x;
+  float g = y;
+  float b = z;
+
+  // Divide the color by the number of samples
+  float scale = 1.0f / samplesPerPixel;
+  r *= scale; 
+  g *= scale; 
+  b *= scale; 
+
+  // Return the translated [0,255] value of each color component
+  return Vec3(static_cast<int>(clamp(r, 0.0f, 0.999f) * 256),
+              static_cast<int>(clamp(g, 0.0f, 0.999f) * 256),
+              static_cast<int>(clamp(b, 0.0f, 0.999f) * 256));
 }
 
 float dot(const Vec3& lhs, const Vec3& rhs) {
