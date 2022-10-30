@@ -5,7 +5,7 @@
 [![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg) [![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg) [![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 
 This ray tracer is a test ground for my future 3D graphics rendering project. For the most part, I was just rewriting the code from the book <a href="Ray Tracing in One Weekend">Ray Tracing in One Weekend</a>, changing some places that I thought I could do better/more correctly.
-At the moment, this ray tracer is able to draw static spheres, backgrounds and soft shadows.
+At the moment, this ray tracer is able to draw static spheres, backgrounds, soft shadows using SSAA.
 
 <div align="center">
 	<img width="700" src="https://github.com/MrShelDie/RayTray/blob/master/demo.png?raw=true"/>
