@@ -34,9 +34,9 @@ IHittable* Sphere::copy() const {
 bool Sphere::hit(
     const Ray& ray, float tMin, float tMax, HitRecord& hitRecord) const {
   Vec3  oc = ray.getOrigin() - center;
-  float a = ray.getDirection().length_squared();
+  float a = ray.getDirection().lengthSquared();
   float halfB = dot(ray.getDirection(), oc);
-  float c = oc.length_squared() - radius * radius;
+  float c = oc.lengthSquared() - radius * radius;
   float discriminant = halfB * halfB - a * c;
 
   if (discriminant < 0) {

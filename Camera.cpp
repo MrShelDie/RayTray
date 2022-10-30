@@ -29,5 +29,6 @@ const float Camera::kViewPortHeight = 2.0f;
 const float Camera::kViewPortWidth = kViewPortHeight * kAspectRation;
 const float Camera::kFocalLength = 1.0f;
 
-const int Camera::kImageWidth = 1024;
+const int Camera::kImageWidth = 1280;
 const int Camera::kImageHeight = static_cast<int>(kImageWidth / kAspectRation);
+const int Camera::kMaxDepth = 3;

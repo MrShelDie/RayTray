@@ -7,6 +7,10 @@
 class Vec3 {
  public:
 
+  static Vec3  rand();
+  static Vec3  rand(float min, float max);
+  static Vec3 randInUnitSphere();
+
   class ZeroDivision : std::exception {
     public:
      const char* what() const throw();
@@ -30,7 +34,7 @@ class Vec3 {
   float getZ() const;
 
   float length() const;
-  float length_squared() const;
+  float lengthSquared() const;
   Vec3  unit() const;
   Vec3  toPixelColor(int samplesPerPixel) const;
 

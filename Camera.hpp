@@ -8,6 +8,7 @@ class Camera {
  public:
   static const int kImageWidth;
   static const int kImageHeight;
+  static const int kMaxDepth;
 
   Camera();
   Camera(const Camera& c);

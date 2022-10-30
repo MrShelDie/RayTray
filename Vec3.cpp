@@ -3,6 +3,22 @@
 #include "Vec3.hpp"
 #include "RayTray.hpp"
 
+Vec3 Vec3::rand() {
+  return Vec3(randFloat(), randFloat(), randFloat());
+}
+
+Vec3 Vec3::rand(float min, float max) {
+  return Vec3(randFloat(min, max), randFloat(min, max), randFloat(min, max));
+}
+
+Vec3 Vec3::randInUnitSphere() {
+  while (true) {
+    auto p = Vec3::rand(-1, 1);
+    if (p.lengthSquared() < 1)
+      return p;
+  }
+}
+
 Vec3::Vec3() : x(0), y(0), z(0) {
 
 }
@@ -104,7 +120,7 @@ float Vec3::length() const {
   return std::sqrt(x * x + y * y + z * z);
 }
 
-float Vec3::length_squared() const {
+float Vec3::lengthSquared() const {
   return x * x + y * y + z * z;
 }
 
@@ -117,11 +133,12 @@ Vec3 Vec3::toPixelColor(int samplesPerPixel) const {
   float g = y;
   float b = z;
 
-  // Divide the color by the number of samples
+  // Divide the color by the number of samples 
+  // and gamma-correct for gamma=2.0
   float scale = 1.0f / samplesPerPixel;
-  r *= scale; 
-  g *= scale; 
-  b *= scale; 
+  r = std::sqrt(scale * r); 
+  g = std::sqrt(scale * g); 
+  b = std::sqrt(scale * b); 
 
   // Return the translated [0,255] value of each color component
   return Vec3(static_cast<int>(clamp(r, 0.0f, 0.999f) * 256),
