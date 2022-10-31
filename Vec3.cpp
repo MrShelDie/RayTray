@@ -3,20 +3,24 @@
 #include "Vec3.hpp"
 #include "RayTray.hpp"
 
-Vec3 Vec3::rand() {
+Vec3 Vec3::randVec() {
   return Vec3(randFloat(), randFloat(), randFloat());
 }
 
-Vec3 Vec3::rand(float min, float max) {
+Vec3 Vec3::randVec(float min, float max) {
   return Vec3(randFloat(min, max), randFloat(min, max), randFloat(min, max));
 }
 
-Vec3 Vec3::randInUnitSphere() {
+Vec3 Vec3::randVecInUnitSphere() {
   while (true) {
-    auto p = Vec3::rand(-1, 1);
+    auto p = randVec(-1, 1);
     if (p.lengthSquared() < 1)
       return p;
   }
+}
+
+Vec3 Vec3::randUnitVec() {
+  return randVecInUnitSphere().unit();
 }
 
 Vec3::Vec3() : x(0), y(0), z(0) {

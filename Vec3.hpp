@@ -7,9 +7,10 @@
 class Vec3 {
  public:
 
-  static Vec3  rand();
-  static Vec3  rand(float min, float max);
-  static Vec3 randInUnitSphere();
+  static Vec3 randVec();
+  static Vec3 randVec(float min, float max);
+  static Vec3 randVecInUnitSphere();
+  static Vec3 randUnitVec();
 
   class ZeroDivision : std::exception {
     public:

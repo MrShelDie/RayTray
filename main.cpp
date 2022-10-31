@@ -22,11 +22,7 @@ Color getRayColor(const Ray& ray, const HittableList& world, int depth) {
   HitRecord hitRec;
 
   if (world.hit(ray, 0.001f, kInfinity, hitRec)) {
-   // if (hitRec.norm.getY() < 0) {
-   //   std::cout << ray.getOrigin() << " " << ray.getDirection() << " " << hitRec.t << "\n";
-   //   // std::cout << depth << "\n";
-   // }
-    Point3 target = hitRec.p + hitRec.norm + Vec3::randInUnitSphere();
+    Point3 target = hitRec.p + hitRec.norm + Vec3::randUnitVec();
     return 0.2f * getRayColor(Ray(hitRec.p, target - hitRec.p), world, depth-1);
   }
   

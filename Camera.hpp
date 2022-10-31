@@ -3,7 +3,6 @@
 
 #include "Ray.hpp"
 
-
 class Camera {
  public:
   static const int kImageWidth;
