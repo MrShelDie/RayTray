@@ -20,7 +20,16 @@ Vec3 Vec3::randVecInUnitSphere() {
 }
 
 Vec3 Vec3::randUnitVec() {
-  return randVecInUnitSphere().unit();
+  return randVecInUnitSphere().toUnitVec();
+}
+
+Vec3 Vec3::reflect(const Vec3& v, const Vec3& n) {
+  return v - 2 * dot(v, n) * n;
+}
+
+bool Vec3::nearZero() const {
+  const float e = 1e-8;
+  return (fabs(x) < e) && (fabs(y) < e) && (fabs(z) < e);
 }
 
 Vec3::Vec3() : x(0), y(0), z(0) {
@@ -96,6 +105,14 @@ Vec3 operator*(const Vec3& v, const float t) {
   return t * v; 
 }
 
+Vec3 operator*(const Vec3& lhs, const Vec3& rhs) {
+  return Vec3(
+    lhs.getX() * rhs.getX(),
+    lhs.getY() * rhs.getY(),
+    lhs.getZ() * rhs.getZ()
+  );
+}
+
 Vec3 Vec3::operator/(const float t) const {
   if (t == 0) {
     throw ZeroDivision();
@@ -128,7 +145,7 @@ float Vec3::lengthSquared() const {
   return x * x + y * y + z * z;
 }
 
-Vec3 Vec3::unit() const {
+Vec3 Vec3::toUnitVec() const {
   return *this / length();
 }
 
@@ -150,7 +167,7 @@ Vec3 Vec3::toPixelColor(int samplesPerPixel) const {
               static_cast<int>(clamp(b, 0.0f, 0.999f) * 256));
 }
 
-float dot(const Vec3& lhs, const Vec3& rhs) {
+float Vec3::dot(const Vec3& lhs, const Vec3& rhs) {
   return lhs.getX() * rhs.getX() +
          lhs.getY() * rhs.getY() +
          lhs.getZ() * rhs.getZ();

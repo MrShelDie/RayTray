@@ -7,11 +7,12 @@ Sphere::Sphere() : radius(0) {
 }
 
 Sphere::Sphere(const Sphere& other) :
-    center(other.center), radius(other.radius) {
+    center(other.center), radius(other.radius), material(other.material) {
     
 }
 
-Sphere::Sphere(Point3 center, float radius) : center(center), radius(radius) {
+Sphere::Sphere(Point3 center, float radius, shared_ptr<AMaterial> material) :
+    center(center), radius(radius), material(material) {
 
 }
 
@@ -19,6 +20,7 @@ Sphere& Sphere::operator=(const Sphere& other) {
   if (&other != this) {
     center = other.center; 
     radius = other.radius; 
+    material = other.material;
   }
   return *this;  
 }
@@ -35,7 +37,7 @@ bool Sphere::hit(
     const Ray& ray, float tMin, float tMax, HitRecord& hitRecord) const {
   Vec3  oc = ray.getOrigin() - center;
   float a = ray.getDirection().lengthSquared();
-  float halfB = dot(ray.getDirection(), oc);
+  float halfB = Vec3::dot(ray.getDirection(), oc);
   float c = oc.lengthSquared() - radius * radius;
   float discriminant = halfB * halfB - a * c;
 
@@ -58,6 +60,7 @@ bool Sphere::hit(
   hitRecord.p = ray.at(root);
   Vec3 outwardNorm = (hitRecord.p - center) / radius;
   hitRecord.setFaceNorm(ray, outwardNorm);
+  hitRecord.material = material;
 
   return true;
 }

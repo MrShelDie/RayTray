@@ -2,8 +2,7 @@
 #define AMATERIAL_H
 
 #include "Ray.hpp"
-
-struct HitRecord;
+#include "HitRecord.hpp"
 
 class AMaterial {
  public:
@@ -11,7 +10,7 @@ class AMaterial {
 
   virtual bool scatter(
     const Ray& rayIn, const HitRecord& hitRec,
-    Color& attenutation, Ray& scattere
+    Color& attenutation, Ray& scattered
   ) const = 0;
 };
 

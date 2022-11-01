@@ -3,6 +3,8 @@
 
 #include "Vec3.hpp"
 
+class HittableList;
+
 class Ray {
  public:
   Ray();
@@ -14,6 +16,8 @@ class Ray {
 
   const Point3& getOrigin() const;
   const Vec3&   getDirection() const;
+
+  Color   getColor(const HittableList& world, int depth) const;
 
   Point3 at(const float t) const;
 

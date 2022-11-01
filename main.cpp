@@ -3,8 +3,14 @@
 
 #include "RayTray.hpp"
 #include "Camera.hpp"
+
+// Hittable object
 #include "HittableList.hpp"
 #include "Sphere.hpp"
+
+// material
+#include "Metal.hpp"
+#include "Lambertian.hpp"
 
 void printProgressInfo(int lineNb) {
   std::cerr << "\rScanlines remaining: " << lineNb << " " << std::flush;
@@ -12,23 +18,6 @@ void printProgressInfo(int lineNb) {
 
 void flushProgressInfo() {
   std::cerr << '\r' << std::string(100, ' ') << '\r';
-}
-
-Color getRayColor(const Ray& ray, const HittableList& world, int depth) {
-  if (depth <= 0) {
-    return Color(0, 0, 0);
-  }
-
-  HitRecord hitRec;
-
-  if (world.hit(ray, 0.001f, kInfinity, hitRec)) {
-    Point3 target = hitRec.p + hitRec.norm + Vec3::randUnitVec();
-    return 0.2f * getRayColor(Ray(hitRec.p, target - hitRec.p), world, depth-1);
-  }
-  
-  Vec3 unitDirection = ray.getDirection().unit();
-  float t = 0.5f * (unitDirection.getY() + 1);
-  return (1 - t) * Color(1, 1, 1) + t * Color(0.5, 0.7, 1);
 }
 
 void renderTo(std::ofstream& file, 
@@ -46,7 +35,7 @@ void renderTo(std::ofstream& file,
         float u = (j + randFloat()) / (Camera::kImageWidth - 1);
         float v = (i + randFloat()) / (Camera::kImageHeight - 1);
         Ray ray = cam.getRay(u, v);
-        accumulatedColor += getRayColor(ray, world, Camera::kMaxDepth);
+        accumulatedColor += ray.getColor(world, Camera::kMaxDepth);
       }
       file << accumulatedColor.toPixelColor(kSamplesPerPixel) << "\n";
     } 
@@ -56,9 +45,19 @@ void renderTo(std::ofstream& file,
 }
 
 void initWorld(HittableList& world) {
-  world.append(make_shared<Sphere>(Point3(-0.3, 0, -1.2), 0.5));
-  world.append(make_shared<Sphere>(Point3(0.69, 0, -1), 0.5));
-  world.append(make_shared<Sphere>(Point3(0, -100.5, -1), 100)); 
+  auto materialGround = make_shared<Lambertian>(Color(0.8f, 0.8f, 0.0f));
+  auto materialCenter = make_shared<Lambertian>(Color(0.7f, 0.3f, 0.3f));
+  auto materialLeft   = make_shared<Metal>(Color(0.8f, 0.8f, 0.8f));
+  auto materialRight  = make_shared<Metal>(Color(0.8f, 0.6f, 0.2f));
+
+  world.append(make_shared<Sphere>(
+    Point3(0.0f, -100.5f, -1.0f), 100.0f, materialGround));
+  world.append(make_shared<Sphere>(
+    Point3(0.0f,    0.0f, -1.0f),   0.5f, materialCenter));
+  world.append(make_shared<Sphere>(
+    Point3(-1.0f,   0.0f, -1.0f),   0.5f, materialLeft));
+  world.append(make_shared<Sphere>(
+    Point3(1.0f,    0.0f, -1.0f),   0.5f, materialRight));
 }
 
 int main() {

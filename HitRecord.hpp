@@ -11,7 +11,7 @@ class AMaterial;
 
 struct HitRecord {
   Point3 p;
-  Vec3 norm;
+  Vec3 normal;
   shared_ptr<AMaterial> material;
   float t;
   bool isFontFace;

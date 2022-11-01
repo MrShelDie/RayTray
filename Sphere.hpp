@@ -7,7 +7,7 @@ class Sphere : public IHittable {
  public:
   Sphere();
   Sphere(const Sphere& other);
-  Sphere(Point3 center, float radius);
+  Sphere(Point3 center, float radius, shared_ptr<AMaterial> material);
   virtual ~Sphere();
   
   Sphere& operator=(const Sphere& other);
@@ -22,6 +22,7 @@ class Sphere : public IHittable {
  private:
   Point3 center;
   float  radius;
+  shared_ptr<AMaterial> material;
 };
 
 #endif
